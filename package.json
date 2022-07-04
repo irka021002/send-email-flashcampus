@@ -1,0 +1,18 @@
+{
+  "name": "send-email-flashcampus",
+  "version": "1.0.0",
+  "description": "for sending email flashcampus",
+  "main": "index.js",
+  "scripts": {
+    "main": "node index.js"
+  },
+  "author": "irka",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1162.0",
+    "dotenv": "^16.0.1",
+    "mongodb": "^4.7.0",
+    "nodemailer": "^6.7.5"
+  },
+  "type": "module"
+}

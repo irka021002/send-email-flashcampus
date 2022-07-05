@@ -77,58 +77,58 @@ function deleteEmailTemplate(templateName){
 }
 
 async function emailSendDriver(templateName){
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+        let counter = 0
         const collectionUser = dbApplication.collection("users")
-        const userCount = await collectionUser.count()
-        const batchSize = 250
-        let tmpCount = 0
-        while(tmpCount < userCount){
-            const user = await collectionUser.find().skip(tmpCount).limit(batchSize).toArray()
-            user.map(async data => {
-                if(!data.isUnsubscribe){
-                    console.log("Email : " + data.email)
-                    try {
-                        const sendEmail = await send(templateName, data._id.toString(), [data.email])
-                        console.log(sendEmail)
-                    } catch (error) {
-                        console.log("Email Error: " + data[1])   
-                    }
+        // const userCount = await collectionUser.count()
+        const user = await collectionUser.find().toArray()
+        user.map(async data => {
+            if(!data.isUnsubscribe){
+                console.log("Email : " + data.email)
+                try {
+                    const sendEmail = await send(templateName, data._id.toString(), [data.email])
+                    console.log(sendEmail)
+                } catch (error) {
+                    console.log("Email Error: " + data[1])   
                 }
-            })
-            tmpCount = tmpCount + batchSize
-        }
+            }
+            counter++
+            console.log(counter)
+        })
+        // const batchSize = 250
+        // let tmpCount = 0
         resolve(true)
         reject(false)
     })
 }
 
 async function emailSendTestDriver(templateName){
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const testEmail = [
-            [1, 'syahrizacio@gmail.com'],
-            [2, 'fakhrinalendro@gmail.com'],
-            [3, 'jeremyalvax@gmail.com'],
-            [4, 'fahmi.firstian@ui.ac.id'],
+            // [1, 'syahrizacio@gmail.com'],
+            // [2, 'fakhrinalendro@gmail.com'],
+            // [3, 'jeremyalvax@gmail.com'],
+            // [4, 'fahmi.firstian@ui.ac.id'],
             [5, 'irfankamal021002@gmail.com'],
-            [6, 'rianfebriansyah22@gmail.com'],
-            [7, 'rafsiazzam@mail.ugm.ac.id'],
-            [8, 'schalkeanindya@gmail.com'],
-            [9, 'ahnaf20002@mail.unpad.ac.id'],
-            [10, 'amanda.sinaga24@gmail.com'],
-            [11, 'arielprananda07@gmail.com'],
-            [12, 'auckyqq@gmail.com'],
-            [13, 'glory.christabella@gmail.com'],
-            [14, 'jeremyalvax@gmail.com'],
-            [15, 'kinantihanuunr@gmail.com'],
-            [16, 'najma.asshiddiqie@gmail.com'],
-            [17, 'owen.mulianto@gmail.com'],
-            [18, 'schalkeanindya@gmail.com'],
-            [19, 'tjenjocelyn8@gmail.com'],
-            [20, 'yasmin.hana@ui.ac.id']
+            // [6, 'rianfebriansyah22@gmail.com'],
+            // [7, 'rafsiazzam@mail.ugm.ac.id'],
+            // [8, 'schalkeanindya@gmail.com'],
+            // [9, 'ahnaf20002@mail.unpad.ac.id'],
+            // [10, 'amanda.sinaga24@gmail.com'],
+            // [11, 'arielprananda07@gmail.com'],
+            // [12, 'auckyqq@gmail.com'],
+            // [13, 'glory.christabella@gmail.com'],
+            // [14, 'jeremyalvax@gmail.com'],
+            // [15, 'kinantihanuunr@gmail.com'],
+            // [16, 'najma.asshiddiqie@gmail.com'],
+            // [17, 'owen.mulianto@gmail.com'],
+            // [18, 'schalkeanindya@gmail.com'],
+            // [19, 'tjenjocelyn8@gmail.com'],
+            // [20, 'yasmin.hana@ui.ac.id']
         ]
         testEmail.map(async data => {
             try {
-                console.log("Email : " + data.email)
+                console.log("Email : " + data[1])
                 const sendEmail = await send(templateName, data[0], [data[1]])
                 console.log(sendEmail)
             } catch (error) {
@@ -146,41 +146,35 @@ async function main(){
     console.log("3. Mengirim ke seluruh user")
     console.log("4. Mengirim ke tim")
     console.log("5. Keluar")
-    ask.question("Proses yang ingin dilakukan :\n", key => {
+    ask.question("Proses yang ingin dilakukan : ", async key => {
         switch (key) {
             case "1":
-                let namaTemplateCreate
-                let subjectTemplateCreate
-                ask.question("Nama template :\n", nama => {
-                    namaTemplateCreate = nama
-                    ask.question("Subject template :\n", subject => {
-                        subjectTemplateCreate = subject
+                ask.question("Nama template : ", nama => {
+                    ask.question("Subject template : ", async subject => {
+                        ask.close()
+                        console.log("Pesan :")
+                        console.log(await createEmailTemplate(nama, subject))
                     })
                 })
-                console.log("Pesan :")
-                console.log(await createEmailTemplate(namaTemplateCreate, subjectTemplateCreate))
                 break;
             case "2":
-                let namaTemplateDelete
-                ask.question("Nama template :\n", nama => {
-                    namaTemplateDelete = nama
+                ask.question("Nama template : ", async nama => {
+                    ask.close()
+                    console.log("Pesan :")
+                    console.log(await deleteEmailTemplate(nama))
                 })
-                console.log("Pesan :")
-                console.log(await deleteEmailTemplate(namaTemplateDelete))
                 break;
             case "3":
-                let namaTemplateSend
-                ask.question("Nama template :\n", nama => {
-                    namaTemplateSend = nama
+                ask.question("Nama template : ", async nama => {
+                    ask.close()
+                    console.log(await emailSendDriver(nama))
                 })
-                console.log(await emailSendDriver(namaTemplateSend))
                 break;
             case "4":
-                let namaTemplateTest
-                ask.question("Nama template :\n", nama => {
-                    namaTemplateTest = nama
+                ask.question("Nama template : ", async nama => {
+                    ask.close()
+                    console.log(await emailSendTestDriver(nama))
                 })
-                console.log(await emailSendTestDriver(namaTemplateTest))
                 break;
             case "5":
                 ask.close()
@@ -189,8 +183,6 @@ async function main(){
                 break;
         }
     })
-    ask.close()
-    return true
 }
 
 main()

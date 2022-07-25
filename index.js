@@ -77,33 +77,33 @@ function deleteEmailTemplate(templateName){
 }
 
 async function emailSendDriver(templateName){
-    return new Promise(async (resolve, reject) => {
-        let counter = 0
-        const collectionUser = dbApplication.collection("users")
-        // const userCount = await collectionUser.count()
-        const user = await collectionUser.find().toArray()
-        user.map(async data => {
+    let counter = 0
+    const collectionUser = dbApplication.collection("users")
+    const user = await collectionUser.find().toArray()
+    const sending = setInterval(async () => {
+        const data = user.pop()
+        if(data){
             if(!data.isUnsubscribe){
-                console.log("Email : " + data.email)
                 try {
                     const sendEmail = await send(templateName, data._id.toString(), [data.email])
-                    console.log(sendEmail)
+                    if(sendEmail){
+                        counter++
+                        console.log("Email : " + data.email + " Counter : " + counter)
+                        console.log(sendEmail)
+                    }
                 } catch (error) {
-                    console.log("Email Error: " + data[1])   
+                    console.log("Email Error: " + data.email + " Counter : " + counter)
+                    console.log(error)
                 }
             }
-            counter++
-            console.log(counter)
-        })
-        // const batchSize = 250
-        // let tmpCount = 0
-        resolve(true)
-        reject(false)
-    })
+        }else{
+            clearInterval(sending)
+            console.log("Pengiriman Email Selesai!")
+        }
+    }, 100)
 }
 
 async function emailSendTestDriver(templateName){
-    return new Promise(async (resolve, reject) => {
         const testEmail = [
             // [1, 'syahrizacio@gmail.com'],
             // [2, 'fakhrinalendro@gmail.com'],
@@ -126,18 +126,26 @@ async function emailSendTestDriver(templateName){
             // [19, 'tjenjocelyn8@gmail.com'],
             // [20, 'yasmin.hana@ui.ac.id']
         ]
-        testEmail.map(async data => {
-            try {
-                console.log("Email : " + data[1])
-                const sendEmail = await send(templateName, data[0], [data[1]])
-                console.log(sendEmail)
-            } catch (error) {
-                console.log("Email Error: " + data[1])   
+        let counter = 0
+        const sending = setInterval(async () => {
+            const data = testEmail.pop()
+            if(data){
+                try {
+                    const sendEmail = await send(templateName, data[0], [data[1]])
+                    if(sendEmail){
+                        counter++
+                        console.log("Email : " + data[1] + " Counter : " + counter)
+                        console.log(sendEmail)
+                    }
+                } catch (error) {
+                    console.log("Email Error: " + data[1] + " Counter : " + counter)
+                    console.log(error)
+                }
+            }else{
+                clearInterval(sending)
+                console.log("Pengiriman Email Selesai!")
             }
-        })
-        resolve(true)
-        reject(false)
-    })
+        }, 80)
 }
 
 async function main(){

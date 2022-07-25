@@ -4,7 +4,8 @@
   "description": "for sending email flashcampus",
   "main": "index.js",
   "scripts": {
-    "main": "node index.js"
+    "main": "node index.js",
+    "coba": "node coba.js"
   },
   "author": "irka",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "aws-sdk": "^2.1162.0",
     "dotenv": "^16.0.1",
     "mongodb": "^4.7.0",
+    "node-fetch": "^3.2.6",
     "nodemailer": "^6.7.5"
   },
   "type": "module"

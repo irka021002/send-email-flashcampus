@@ -47,11 +47,11 @@ async function sendPrivateEmail(to){
         Message: {
             Body: {
                 Text: {
-                    Data: `Halo ${to[0].split("@")[0]} 👋\n\nSemoga kabar kamu baik di sana. Kalau kamu subscriber baru FlashCampus, selamat datang! Salam kenal, aku Rafsi, salah satu orang di balik FlashCampus.\n\nSetelah kurang lebih sebulan menemani pengembangan diri teman-teman pelajar di Indonesia, FlashCampus sedang mempersiapkan untuk segera hadir dengan FlashCampus Versi 1.2 🔥\n\nIya, kamu enggak akan lagi menerima konten FlashCampus dengan format dan frekuensi seperti sekarang. Akan ada beberapa perubahan yang terjadi dengan tujuan mengakomodasi kebutuhan pengembangan diri kamu secara lebih baik. Untuk itu, kita butuh bantuan kamu!\n\nBantu FlashCampus jadi lebih baik dengan mengisi https://forms.gle/iChgUm18c8nAwX2u7 (anonim, kok 😉).\n\nPartisipasi kamu sangat berharga untuk membantu teman-teman di seluruh Indonesia. Tunggu lebih banyak hal menarik untuk kamu ke depannya, ya! ✨\n\nRafsi Albar\nCo-founder & CEO, FlashCampus`
+                    Data: `Halo, ${to[0].split('@')[0]}!\n\nSemoga kabar kamu baik di sana.\n\nSebelumnya, aku mau memberitahukan kembali kalau FlashCampus 1.2 sudah terbit sebanyak 2 edisi!! Semoga kamu menyukai sajian baru FlashCampus, ya 😄\n\nDengan email ini, aku mau menginformasikan kesempatan yang gak boleh kamu lewatin. FlashCampus saat ini sedang membangun komunitas eksklusif, dan kamu berkesempatan masuk!\n\nDi komunitas ini, kamu akan berkesempatan berkenalan dengan teman-teman dari berbagai latar belakang, mulai dari sesama mahasiswa hingga KOL. Selain itu, kamu juga akan berkesempatan mengikuti berbagai kegiatan seperti online networking dan upskilling session 🙌\n\nCara daftarnya mudah banget, kok. Langsung isi formnya di https://bit.ly/FC-Community-Oprec. Jika kamu terpilih, tim FlashCampus akan menghubungi kamu untuk kelanjutannya.\n\nKami tunggu partisipasi kamu!\n\nSalam hangat,\nRafsi Albar\nCo-founder & CEO, FlashCampus`
                 }
             },
             Subject: {
-                Data: "Nasib FlashCampus ke depannya..."
+                Data: "Jadi bagian komunitas eksklusif FlashCampus!"
             }
         },
         ReplyToAddresses: ["rafsi@flashcampus.com"],
@@ -132,7 +132,7 @@ async function emailSendDriver(templateName){
                 console.log("Pengiriman Email Selesai!")
             }
         }
-    }, 100)
+    }, 143)
 }
 
 async function privateEmailSendTestDriver(){
@@ -212,7 +212,7 @@ async function privateEmailSendDriver(){
                 console.log("Pengiriman Email Selesai!")
             }
         }
-    }, 100)
+    }, 140)
 }
 
 async function emailSendTestDriver(templateName){
